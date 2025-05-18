@@ -189,8 +189,8 @@ elements.difficulty.addEventListener('change', (e) => {
 elements.themeBtn.addEventListener('click', () => {
     document.body.classList.toggle('dark-theme');
     elements.themeBtn.textContent = document.body.classList.contains('dark-theme') 
-        ? '☀️ Light Theme' 
-        : '🌙 Dark Theme';
+        ? 'Light Theme' 
+        : 'Dark Theme';
 });
 
 elements.powerupBtn.addEventListener('click', () => {
