@@ -1,44 +1,50 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-  <meta charset="UTF-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Document</title>
-  <link rel="stylesheet" href="style.css">
-  <!-- import jQuery -->
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-  <script src="index.js"></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pokémon Memory Game</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 </head>
+<body class="light-theme">
+    <header class="game-header">
+        <div class="controls">
+            <select id="difficulty" class="control-btn">
+                <option value="easy">Easy</option>
+                <option value="medium">Medium</option>
+                <option value="hard">Hard</option>
+            </select>
+            <button id="start-btn" class="control-btn">New Game</button>
+            <button id="reset-btn" class="control-btn">Reset</button>
+            <button id="theme-btn" class="control-btn">🌙 Dark Theme</button>
+            <button id="powerup-btn" class="control-btn">✨ Reveal Cards</button>
+        </div>
+        
+        <div class="game-status">
+            <div class="status-item">
+                <span>Time:</span>
+                <span id="timer">60</span>
+            </div>
+            <div class="status-item">
+                <span>Matched:</span>
+                <span id="matched">0</span>
+            </div>
+            <div class="status-item">
+                <span>Remaining:</span>
+                <span id="remaining">0</span>
+            </div>
+            <div class="status-item">
+                <span>Clicks:</span>
+                <span id="clicks">0</span>
+            </div>
+        </div>
+    </header>
 
-<body>
-  <div id="game_grid">
-    <div class="card">
-      <img id="img1" class="front_face" src="001.png" alt="">
-      <img class="back_face" src="back.webp" alt="">
-    </div>
-    <div class="card">
-      <img id="img2" class="front_face" src="002.png" alt="">
-      <img class="back_face" src="back.webp" alt="">
-    </div>
-    <div class="card">
-      <img id="img3" class="front_face" src="003.png" alt="">
-      <img class="back_face" src="back.webp" alt="">
-    </div>
-    <div class="card">
-      <img id="img4" class="front_face" src="001.png" alt="">
-      <img class="back_face" src="back.webp" alt="">
-    </div>
-    <div class="card">
-      <img id="img5" class="front_face" src="002.png" alt="">
-      <img class="back_face" src="back.webp" alt="">
-    </div>
-    <div class="card">
-      <img id="img6" class="front_face" src="003.png" alt="">
-      <img class="back_face" src="back.webp" alt="">
-    </div>
-  </div>
+    <main class="game-container">
+        <div id="game-grid" class="grid-container"></div>
+    </main>
+
+    <script src="index.js"></script>
 </body>
-
 </html>
