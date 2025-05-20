@@ -64,7 +64,7 @@ async function fetchPokemon() {
             const details = await res.json();
             return {
                 name: details.name,
-                image: details.sprites.other['official-artwork'].front_default || 'default.png'
+                image: details.sprites.other['official-artwork'].front_default
             };
         }));
         
