@@ -12,6 +12,14 @@ body {
   border: 2px tomato solid;
 }
 
+.grid-container.light-mode {
+  background-color: #f9f9f9;
+}
+
+.grid-container.dark-mode {
+  background-color: #222;
+}
+
 .card {
   width: 100%;
   height: 150px; /* Fixed height for consistent rows */

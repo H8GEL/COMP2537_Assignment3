@@ -1,4 +1,4 @@
-// Game State
+// game state keeps track of everything
 const gameState = {
     difficulty: 'easy',
     totalPairs: 3,
@@ -13,7 +13,7 @@ const gameState = {
     gameActive: false
 };
 
-// DOM Elements
+// all the html elements we need to work with
 const elements = {
     gameGrid: document.getElementById('game-grid'),
     timer: document.getElementById('timer'),
@@ -27,14 +27,14 @@ const elements = {
     powerupBtn: document.getElementById('powerup-btn')
 };
 
-// Difficulty Settings
+// settings for each difficulty level
 const difficultySettings = {
-    easy: { pairs: 3, time: 60 },
+    easy: { pairs: 3, time: 10 },
     medium: { pairs: 5, time: 90 },
     hard: { pairs: 8, time: 120 }
 };
 
-// Initialize Game
+// starts a new game
 async function initializeGame() {
     gameState.gameActive = true;
     gameState.timeLeft = gameState.timeLimit;
@@ -51,7 +51,7 @@ async function initializeGame() {
     startTimer();
 }
 
-// Fetch Pokémon Data
+// gets pokemon data from the api
 async function fetchPokemon() {
     try {
         const response = await fetch('https://pokeapi.co/api/v2/pokemon?limit=1500');
@@ -70,15 +70,15 @@ async function fetchPokemon() {
         
         return pokemonData;
     } catch (error) {
-        console.error('Error fetching Pokémon:', error);
+        console.error('oops, error getting pokemon:', error);
         return [];
     }
 }
 
-// Generate Game Cards
+// creates the card elements for the game
 function generateCards(pokemonList) {
-    const cards = pokemonList.flatMap(p => [p, p]);
-    cards.sort(() => Math.random() - 0.5);
+    const cards = pokemonList.flatMap(p => [p, p]); // make pairs
+    cards.sort(() => Math.random() - 0.5); // shuffle
     
     cards.forEach((pokemon, index) => {
         const card = document.createElement('div');
@@ -92,7 +92,7 @@ function generateCards(pokemonList) {
     });
 }
 
-// Handle Card Click
+// what happens when you click a card
 function handleCardClick() {
     if (!gameState.gameActive || 
         gameState.isProcessing || 
@@ -111,7 +111,7 @@ function handleCardClick() {
     updateGameStatus();
 }
 
-// Check Card Match
+// checks if two flipped cards match
 function checkMatch() {
     const [card1, card2] = gameState.flippedCards;
     const img1 = card1.querySelector('.front_face').src;
@@ -135,23 +135,23 @@ function checkMatch() {
     }, 1000);
 }
 
-// Check Win Condition
+// checks if player won
 function checkWin() {
     if (gameState.matchedPairs === gameState.totalPairs) {
         endGame(true);
     }
 }
 
-// Update Game Status Display
+// updates the score and timer display
 function updateGameStatus() {
     elements.clicks.textContent = gameState.clicks;
     elements.matched.textContent = gameState.matchedPairs;
     elements.remaining.textContent = gameState.totalPairs - gameState.matchedPairs;
     elements.timer.textContent = gameState.timeLeft;
-    elements.powerupBtn.textContent = `✨ Reveal Cards (${gameState.powerups})`;
+    elements.powerupBtn.textContent = `reveal cards (${gameState.powerups})`;
 }
 
-// Game Timer
+// starts the countdown timer
 function startTimer() {
     clearInterval(gameState.timerId);
     gameState.timerId = setInterval(() => {
@@ -164,17 +164,17 @@ function startTimer() {
     }, 1000);
 }
 
-// End Game
+// ends the game with win/lose message
 function endGame(won) {
     clearInterval(gameState.timerId);
     gameState.gameActive = false;
     elements.gameGrid.querySelectorAll('.card').forEach(card => {
         card.removeEventListener('click', handleCardClick);
     });
-    alert(won ? 'Congratulations! You won!' : 'Game Over! Time expired!');
+    alert(won ? 'you won! nice job!' : 'time\'s up! game over');
 }
 
-// Event Listeners
+// event listeners for buttons
 elements.startBtn.addEventListener('click', initializeGame);
 elements.resetBtn.addEventListener('click', initializeGame);
 
@@ -189,10 +189,11 @@ elements.difficulty.addEventListener('change', (e) => {
 elements.themeBtn.addEventListener('click', () => {
     document.body.classList.toggle('dark-theme');
     elements.themeBtn.textContent = document.body.classList.contains('dark-theme') 
-        ? 'Light Theme' 
-        : 'Dark Theme';
+        ? 'light theme' 
+        : 'dark theme';
 });
 
+// powerup that shows all cards briefly
 elements.powerupBtn.addEventListener('click', () => {
     if (gameState.powerups > 0 && gameState.gameActive) {
         gameState.powerups--;
@@ -210,9 +211,28 @@ elements.powerupBtn.addEventListener('click', () => {
     }
 });
 
-// Initial Setup
+// set up initial game settings when page loads
 document.addEventListener('DOMContentLoaded', () => {
     const settings = difficultySettings[gameState.difficulty];
     gameState.totalPairs = settings.pairs;
     gameState.timeLimit = settings.time;
+});
+
+$(document).ready(function() {
+    // Set initial theme
+    $('#game-grid').addClass('light-mode');
+
+    $('#theme-btn').click(function() {
+        const $body = $('body');
+        const $grid = $('#game-grid');
+        if ($body.hasClass('light-theme')) {
+            $body.removeClass('light-theme').addClass('dark-theme');
+            $grid.removeClass('light-mode').addClass('dark-mode');
+            $(this).text('Light Theme');
+        } else {
+            $body.removeClass('dark-theme').addClass('light-theme');
+            $grid.removeClass('dark-mode').addClass('light-mode');
+            $(this).text('Dark Theme');
+        }
+    });
 });
