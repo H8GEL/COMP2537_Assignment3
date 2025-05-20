@@ -9,7 +9,7 @@ const gameState = {
     flippedCards: [],
     timerId: null,
     isProcessing: false,
-    powerups: 3,
+    powerups: 1,
     gameActive: false
 };
 
@@ -41,7 +41,7 @@ async function initializeGame() {
     gameState.clicks = 0;
     gameState.matchedPairs = 0;
     gameState.flippedCards = [];
-    gameState.powerups = 3;
+    gameState.powerups = 1;
     
     elements.gameGrid.innerHTML = '';
     updateGameStatus();
@@ -196,14 +196,16 @@ elements.themeBtn.addEventListener('click', () => {
 // powerup that shows all cards briefly
 elements.powerupBtn.addEventListener('click', () => {
     if (gameState.powerups > 0 && gameState.gameActive) {
-        gameState.powerups--;
+        gameState.powerups = 0; 
         const cards = elements.gameGrid.querySelectorAll('.memory-card');
         
         cards.forEach(card => card.classList.add('flip'));
         setTimeout(() => {
             cards.forEach(card => {
-                if (!card.classList.contains('flip')) return;
-                card.classList.remove('flip');
+                
+                if (!card.classList.contains('matched')) {
+                    card.classList.remove('flip');
+                }
             });
         }, 2000);
         
