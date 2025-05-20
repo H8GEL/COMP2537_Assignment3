@@ -29,7 +29,7 @@ const elements = {
 
 // settings for each difficulty level
 const difficultySettings = {
-    easy: { pairs: 3, time: 10 },
+    easy: { pairs: 3, time: 20 },
     medium: { pairs: 5, time: 90 },
     hard: { pairs: 8, time: 120 }
 };
@@ -82,7 +82,7 @@ function generateCards(pokemonList) {
     
     cards.forEach((pokemon, index) => {
         const card = document.createElement('div');
-        card.className = 'card';
+        card.className = 'memory-card';
         card.innerHTML = `
             <img class="front_face" src="${pokemon.image}" alt="${pokemon.name}">
             <img class="back_face" src="back.webp">
@@ -168,7 +168,7 @@ function startTimer() {
 function endGame(won) {
     clearInterval(gameState.timerId);
     gameState.gameActive = false;
-    elements.gameGrid.querySelectorAll('.card').forEach(card => {
+    elements.gameGrid.querySelectorAll('.memory-card').forEach(card => {
         card.removeEventListener('click', handleCardClick);
     });
     alert(won ? 'you won! nice job!' : 'time\'s up! game over');
@@ -197,7 +197,7 @@ elements.themeBtn.addEventListener('click', () => {
 elements.powerupBtn.addEventListener('click', () => {
     if (gameState.powerups > 0 && gameState.gameActive) {
         gameState.powerups--;
-        const cards = elements.gameGrid.querySelectorAll('.card');
+        const cards = elements.gameGrid.querySelectorAll('.memory-card');
         
         cards.forEach(card => card.classList.add('flip'));
         setTimeout(() => {
