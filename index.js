@@ -70,7 +70,7 @@ async function fetchPokemon() {
         
         return pokemonData;
     } catch (error) {
-        console.error('oops, error getting pokemon:', error);
+        console.error('error getting pokemon:', error);
         return [];
     }
 }
